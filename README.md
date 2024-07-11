@@ -1,2 +1,16 @@
 # date-picker
 a custom date-picker that uses the &lt;input type="date"> under the hood
+
+STEPS:
+<p>[✓] Create project with Vite + Lit + TS;</p>
+<p>[✓] Create custom date-picker component;</p>
+<p>[~] Propagate attributes;</p>
+<p>[✓] Stop generation of default calendar;</p>
+<p>[ ] Toggle custom calendar visibility;</p>
+<p>[ ] Display dynamic dates;</p>
+<p>[ ] Prev/next month navigation;</p>
+<p>[ ] Change year or month with inputs;</p>
+<p>[ ] Apply/cancel date selection;</p>
+<p>[ ] ... ;</p>
+<p>[ ] ... ;</p>
+<p>[ ] ... ;</p>

@@ -4,10 +4,24 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
+    <title>Custom date-picker</title>
+    <link rel="stylesheet" href="./src/index.css" />
+    <script type="module" src="/src/custom-date-picker"></script>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+  <form id="dateForm">
+    <label for="dateInput">Select a date:</label>
+    <custom-date-picker id="dateInput" name="date" ></custom-date-picker>
+    <button type="submit">Submit</button>
+    <button type="reset">Reset</button>
+  </form>
+
+  <script>
+    document.getElementById('dateForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the default form submission
+      const dateValue = document.getElementById('dateInput').value;
+      console.log('Selected date:', dateValue);
+    });
+  </script>
   </body>
 </html>
