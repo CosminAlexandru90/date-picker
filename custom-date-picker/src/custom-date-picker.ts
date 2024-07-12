@@ -31,12 +31,15 @@ export class CustomDatePicker extends LitElement {
     console.log('montat');
     this.closest('form').addEventListener('reset', ()=>{
       this.value=''}, { capture: true });
+    this.closest('form').addEventListener('formdata', (event: FormDataEvent)=>{
+      event.formData.append(this.name, this.value);}, { capture: true });
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     console.log('demontat');
     this.closest('form').removeEventListener('reset', null,{ capture: true });
+    this.closest('form').removeEventListener('formdata', null,{ capture: true });
   }
 
 

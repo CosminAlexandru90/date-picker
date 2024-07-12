@@ -6,6 +6,8 @@ STEPS:
 <p>[✓] Create custom date-picker component;</p>
 <p>[~] Propagate attributes;</p>
 <p>[✓] Stop generation of default calendar;</p>
+<p>[✓] Handle submit event;</p>
+<p>[✓] Handle reset event;</p>
 <p>[ ] Toggle custom calendar visibility;</p>
 <p>[ ] Display dynamic dates;</p>
 <p>[ ] Prev/next month navigation;</p>
