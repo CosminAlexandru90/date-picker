@@ -16,3 +16,5 @@ STEPS:
 <p>[ ] ... ;</p>
 <p>[ ] ... ;</p>
 <p>[ ] ... ;</p>
+<p>[~] Integrate component with React ;</p> 
+// I have integrated the component and it submits and resets in a React app that uses React Hook Form and can also receive inline styles or tailwindcss classes. Further testing needed
