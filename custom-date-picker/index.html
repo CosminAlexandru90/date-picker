@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Custom date-picker</title>
     <link rel="stylesheet" href="./src/index.css" />
@@ -12,9 +11,24 @@
   <form id="dateForm">
     <label for="dateInput">Select a date:</label>
     <custom-date-picker id="dateInput" name="dateInput" value="2023-11-23" ></custom-date-picker>
-    <label for="textField">Select a date:</label>
-
+    <label for="textField">Text</label>
     <input type="text" name="textField" id="textField"/>
+    <label for="dataClasica">Data</label>
+    <input type="date" name="dataClasica" id="dataClasica" placeholder="Selecteaza o data..."/>
+    <select class="month-input">
+      <option>January</option>
+      <option>February</option>
+      <option>March</option>
+      <option>April</option>
+      <option>May</option>
+      <option>June</option>
+      <option>July</option>
+      <option>August</option>
+      <option>September</option>
+      <option>October</option>
+      <option>November</option>
+      <option>December</option>
+    </select>
     <button type="submit">Submit</button>
     <button type="reset">Reset</button>
   </form>
