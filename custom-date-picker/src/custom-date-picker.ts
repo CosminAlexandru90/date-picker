@@ -16,6 +16,19 @@ export class CustomDatePicker extends LitElement {
   // @property({ type: Boolean }) hideDatepicker = true;
 
   private _hideDatepicker = true;
+  private _dates :HTMLElement=document.createElement('div');
+  private _selectedDate = new Date();
+
+  get dates() {
+    return this._dates;
+  }
+
+  set dates(value) {
+    const oldValue = this._dates;
+    this._dates = value;
+    this.requestUpdate('_dates', oldValue);
+  }
+
   get hideDatepicker() {
     return this._hideDatepicker;
   }
@@ -26,8 +39,6 @@ export class CustomDatePicker extends LitElement {
     this.requestUpdate('_hideDatepicker', oldValue);
   }
 
-
-  @query('input') dateInput;
 
   private _onClick(e: Event) {
     e.preventDefault();
@@ -64,6 +75,8 @@ export class CustomDatePicker extends LitElement {
       this.value=''}, { capture: true });
     this.closest('form').addEventListener('formdata', (event: FormDataEvent)=>{
       event.formData.append(this.name, this.value);}, { capture: true });
+    this.dates.className='dates';
+    this.dates.textContent="Nu stiu daca merge";
   }
 
   disconnectedCallback() {
@@ -76,7 +89,6 @@ export class CustomDatePicker extends LitElement {
 
   private _handleDocumentClick = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
-    console.log(target?.id);
     if (!target.closest('#dateInput')) {
       this.hideDatepicker = true;
     }
@@ -131,38 +143,7 @@ export class CustomDatePicker extends LitElement {
                     <span>Fri</span>
                     <span>Sat</span>
                 </div>
-                <div class="dates">
-                    <button disabled @click="${this._onButtonClick}">1</button>
-                    <button disabled @click="${this._onButtonClick}">2</button>
-                    <button disabled @click="${this._onButtonClick}">3</button>
-                    <button @click="${this._onButtonClick}">4</button>
-                    <button @click="${this._onButtonClick}">5</button>
-                    <button @click="${this._onButtonClick}">6</button>
-                    <button>7</button>
-                    <button>8</button>
-                    <button class="today">9</button>
-                    <button>10</button>
-                    <button class="selected">11</button>
-                    <button>12</button>
-                    <button>13</button>
-                    <button>14</button>
-                    <button>15</button>
-                    <button>16</button>
-                    <button>17</button>
-                    <button>18</button>
-                    <button>19</button>
-                    <button>20</button>
-                    <button>21</button>
-                    <button>22</button>
-                    <button>23</button>
-                    <button>24</button>
-                    <button>25</button>
-                    <button>26</button>
-                    <button>27</button>
-                    <button>28</button>
-                    <button>29</button>
-                    <button>30</button>
-                </div>
+                    ${this.dates}
                 <div class="datepicker-footer">
                     <button class="cancel" @click="${this._onCancelClick}">Cancel</button>
                     <button class="apply" @click="${this._onApplyClick}">Apply</button>

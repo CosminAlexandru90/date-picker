@@ -16,7 +16,7 @@ function App() {
   type Inputs = {
     example: string
     exampleRequired: string
-    customDatePicker: Date
+    dateInput: Date
     date: Date
   }
 
@@ -25,7 +25,7 @@ function App() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>()
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data,typeof data.customDatePicker)
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data,typeof data.dateInput)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -34,7 +34,7 @@ function App() {
       <input {...register("exampleRequired", { required: true })} style={{color: "blue"}} className={'border-amber-700 border-2 rounded-lg'} />
       {errors.exampleRequired && <span>This field is required</span>}
 
-      <CustomDatePicker {...register("customDatePicker")} style={{margin: '50px', padding:'15px', backgroundColor:'blue'}} className={'border-amber-700 border-2 rounded-lg'} />
+      <CustomDatePicker id="dateInput" {...register("dateInput")} />
       <input type={"date"} {...register("date")} style={{margin: '50px', padding:'15px', backgroundColor:'blue'}} className={'border-amber-700 border-2 rounded-lg'} />
       <input type="submit" />
       <input type="reset" />
