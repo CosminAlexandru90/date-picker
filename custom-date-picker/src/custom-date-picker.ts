@@ -18,6 +18,86 @@ export class CustomDatePicker extends LitElement {
   private _hideDatepicker = true;
   private _dates :HTMLElement=document.createElement('div');
   private _selectedDate = new Date();
+  private _year=this._selectedDate.getFullYear();
+  private _month=this._selectedDate.getMonth();
+
+  private _handleDateClick = (e) => {
+    const button = e.target;
+
+    // remove the 'selected' class from other buttons
+    const selected = this._dates.querySelector(".selected");
+    selected && selected.classList.remove("selected");
+
+    // add the 'selected' class to current button
+    button.classList.add("selected");
+
+    // set the selected date
+    this._selectedDate = new Date(this._year, this._month, parseInt(button.textContent));
+  };
+
+  private _displayDates = () => {
+    // update year & month whenever the dates are updated
+    //updateYearMonth();
+
+    // clear the dates
+    this._dates.innerHTML = "";
+
+    //* display the last week of previous month
+
+    // get the last date of previous month
+    const lastOfPrevMonth = new Date(this._year, this._month, 0);
+
+    for (let i = 0; i <= lastOfPrevMonth.getDay(); i++) {
+      const text = lastOfPrevMonth.getDate() - lastOfPrevMonth.getDay() + i;
+      const button = this._createButton(text, true, -1);
+      this._dates.appendChild(button);
+    }
+
+    //* display the current month
+
+    // get the last date of the month
+    const lastOfMOnth = new Date(this._year, this._month + 1, 0);
+
+    for (let i = 1; i <= lastOfMOnth.getDate(); i++) {
+      const button = this._createButton(i, false);
+      button.addEventListener("click", this._handleDateClick);
+      this._dates.appendChild(button);
+    }
+
+    //* display the first week of next month
+
+    const firstOfNextMonth = new Date(this._year, this._month + 1, 1);
+
+    for (let i = firstOfNextMonth.getDay(); i < 7; i++) {
+      const text = firstOfNextMonth.getDate() - firstOfNextMonth.getDay() + i;
+
+      const button = this._createButton(text, true, 1);
+      this._dates.appendChild(button);
+    }
+  };
+
+  private _createButton = (text, isDisabled = false, type = 0) => {
+    const currentDate = new Date();
+
+    // determine the date to compare based on the button type
+    let comparisonDate = new Date(this._year, this._month + type, text);
+
+    // check if the current button is the date today
+    const isToday =
+      currentDate.getDate() === text &&
+      currentDate.getFullYear() === this._year &&
+      currentDate.getMonth() === this._month;
+
+    // check if the current button is selected
+    const selected = this._selectedDate.getTime() === comparisonDate.getTime();
+
+    const button = document.createElement("button");
+    button.textContent = text;
+    button.disabled = isDisabled;
+    button.classList.toggle("today", isToday);
+    button.classList.toggle("selected", selected);
+    return button;
+  };
 
   get dates() {
     return this._dates;
@@ -43,11 +123,6 @@ export class CustomDatePicker extends LitElement {
   private _onClick(e: Event) {
     e.preventDefault();
     this.hideDatepicker=!this.hideDatepicker;
-  }
-
-  private _onButtonClick(e: Event) {
-    e.preventDefault();
-    e.target.classList.toggle('selected');
   }
 
   private _onCancelClick(e: Event) {
@@ -76,7 +151,7 @@ export class CustomDatePicker extends LitElement {
     this.closest('form').addEventListener('formdata', (event: FormDataEvent)=>{
       event.formData.append(this.name, this.value);}, { capture: true });
     this.dates.className='dates';
-    this.dates.textContent="Nu stiu daca merge";
+    this._displayDates();
   }
 
   disconnectedCallback() {
