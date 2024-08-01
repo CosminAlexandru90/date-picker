@@ -1,5 +1,5 @@
 import { LitElement, css, html } from 'lit'
-import { customElement, property, query } from 'lit/decorators.js'
+import { customElement, property } from 'lit/decorators.js'
 
 @customElement('custom-date-picker')
 export class CustomDatePicker extends LitElement {
@@ -12,8 +12,6 @@ export class CustomDatePicker extends LitElement {
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) required = false;
   @property({ type: Boolean }) readonly = false;
-
-  // @property({ type: Boolean }) hideDatepicker = true;
 
   private _hideDatepicker = true;
   private _dates :HTMLElement=document.createElement('div');
@@ -32,7 +30,10 @@ export class CustomDatePicker extends LitElement {
     button.classList.add("selected");
 
     // set the selected date
-    this._selectedDate = new Date(this._year, this._month, parseInt(button.textContent));
+    this._selectedDate = new Date(this._year, this._month, parseInt(button.textContent) +1);
+    console.log(button.textContent);
+    this.value=this._selectedDate.toISOString().substring(0, 10);
+    console.log(this._selectedDate.toISOString().substring(0, 10));
   };
 
   private _displayDates = () => {
@@ -147,7 +148,9 @@ export class CustomDatePicker extends LitElement {
     console.log('montat');
     document.addEventListener('click', this._handleDocumentClick);
     this.closest('form').addEventListener('reset', ()=>{
-      this.value=''}, { capture: true });
+      this.value='';
+      this._dates.querySelector('.selected').classList.toggle('selected');
+    }, { capture: true });
     this.closest('form').addEventListener('formdata', (event: FormDataEvent)=>{
       event.formData.append(this.name, this.value);}, { capture: true });
     this.dates.className='dates';

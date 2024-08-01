@@ -9,7 +9,7 @@ STEPS:
 <p>[✓] Handle submit event;</p>
 <p>[✓] Handle reset event;</p>
 <p>[✓] Toggle custom calendar visibility;</p>
-<p>[ ] Display dynamic dates;</p>
+<p>[✓] Display dynamic dates;</p>
 <p>[ ] Prev/next month navigation;</p>
 <p>[ ] Change year or month with inputs;</p>
 <p>[ ] Apply/cancel date selection;</p>

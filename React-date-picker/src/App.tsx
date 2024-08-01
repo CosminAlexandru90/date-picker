@@ -14,10 +14,10 @@ export const CustomDatePicker = createComponent({
 });
 function App() {
   type Inputs = {
-    example: string
-    exampleRequired: string
-    dateInput: Date
-    date: Date
+    example: string;
+    exampleRequired: string;
+    dateInput: Date;
+    date: Date;
   }
 
   const {
@@ -36,8 +36,8 @@ function App() {
 
       <CustomDatePicker id="dateInput" {...register("dateInput")} />
       <input type={"date"} {...register("date")} style={{margin: '50px', padding:'15px', backgroundColor:'blue'}} className={'border-amber-700 border-2 rounded-lg'} />
-      <input type="submit" />
-      <input type="reset" />
+      <input type="submit" className={'p-2 m-2 rounded-lg border-cyan-600 border-2 bg-cyan-500'}/>
+      <input type="reset" className={'p-2 m-2 rounded-lg border-cyan-600 border-2 bg-cyan-500'}/>
     </form>
   )
 }
