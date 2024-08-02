@@ -139,7 +139,7 @@ export class CustomDatePicker extends LitElement {
   private _onPreviousMonthClick(e: Event) {
     e.preventDefault();
     if(this._month === 0) this._year--;
-    this._month=(this._month - 1 + 12) % 12;
+    this._month=(this._month - 1) % 12;
     this._displayDates();
     console.log(this._month, this._year);
   }
