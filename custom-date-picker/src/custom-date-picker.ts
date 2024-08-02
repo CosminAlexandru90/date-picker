@@ -1,5 +1,5 @@
-import { LitElement, css, html } from 'lit'
-import { customElement, property } from 'lit/decorators.js'
+import {css, html, LitElement} from 'lit'
+import {customElement, property} from 'lit/decorators.js'
 
 @customElement('custom-date-picker')
 export class CustomDatePicker extends LitElement {
@@ -31,9 +31,7 @@ export class CustomDatePicker extends LitElement {
 
     // set the selected date
     this._selectedDate = new Date(this._year, this._month, parseInt(button.textContent) +1);
-    console.log(button.textContent);
     this.value=this._selectedDate.toISOString().substring(0, 10);
-    console.log(this._selectedDate.toISOString().substring(0, 10));
   };
 
   private _displayDates = () => {
@@ -138,6 +136,34 @@ export class CustomDatePicker extends LitElement {
     this.hideDatepicker=true;
   }
 
+  private _onPreviousMonthClick(e: Event) {
+    e.preventDefault();
+    if(this._month === 0) this._year--;
+    this._month=(this._month - 1 + 12) % 12;
+    this._displayDates();
+    console.log(this._month, this._year);
+  }
+
+  private _onNextMonthClick(e: Event) {
+    e.preventDefault();
+    if(this._month === 11) this._year++;
+    this._month=(this._month + 1) % 12;
+    this._displayDates();
+    console.log(this._month, this._year);
+  }
+
+  private _handleMonthChange(e: Event) {
+    e.preventDefault();
+    this._month=e.target.selectedIndex;
+    this._displayDates();
+  }
+
+  private _handleYearChange(e: Event) {
+    e.preventDefault();
+    this._year=e.target.value;
+    this._displayDates();
+  }
+
   private _handleInput(event) {
     this.value = event.target.value;
     this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
@@ -145,7 +171,6 @@ export class CustomDatePicker extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    console.log('montat');
     document.addEventListener('click', this._handleDocumentClick);
     this.closest('form').addEventListener('reset', ()=>{
       this.value='';
@@ -190,10 +215,10 @@ export class CustomDatePicker extends LitElement {
         />
             <div class="datepicker" ?hidden="${(this.hideDatepicker)}">
                 <div class="datepicker-header">
-                    <button class="prev">Prev</button>
+                    <button class="prev" @click="${this._onPreviousMonthClick}">Prev</button>
 
                     <div>
-                        <select class="month-input">
+                        <select class="month-input" @change="${this._handleMonthChange}">
                             <option>January</option>
                             <option>February</option>
                             <option>March</option>
@@ -207,10 +232,10 @@ export class CustomDatePicker extends LitElement {
                             <option>November</option>
                             <option>December</option>
                         </select>
-                        <input type="number" class="year-input" />
+                        <input type="number" class="year-input" @change="${this._handleYearChange}"/>
                     </div>
 
-                    <button class="next">Next</button>
+                    <button class="next" @click="${this._onNextMonthClick}">Next</button>
                 </div>
                 <div class="days">
                     <span>Sun</span>
