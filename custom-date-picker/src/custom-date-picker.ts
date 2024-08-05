@@ -1,5 +1,5 @@
 import {css, html, LitElement} from 'lit'
-import {customElement, property} from 'lit/decorators.js'
+import {customElement, property, state} from 'lit/decorators.js'
 
 @customElement('custom-date-picker')
 export class CustomDatePicker extends LitElement {
@@ -13,25 +13,25 @@ export class CustomDatePicker extends LitElement {
   @property({ type: Boolean }) required = false;
   @property({ type: Boolean }) readonly = false;
 
-  private _hideDatepicker = true;
-  private _dates :HTMLElement=document.createElement('div');
-  private _selectedDate = new Date();
-  private _year=this._selectedDate.getFullYear();
-  private _month=this._selectedDate.getMonth();
+  @state() private hideDatepicker = true;
+  @state() private dates :HTMLElement=document.createElement('div');
+  @state() private selectedDate = new Date();
+  @state() private year=this.selectedDate.getFullYear();
+  @state() private month=this.selectedDate.getMonth();
 
   private _handleDateClick = (e) => {
     const button = e.target;
 
     // remove the 'selected' class from other buttons
-    const selected = this._dates.querySelector(".selected");
+    const selected = this.dates.querySelector(".selected");
     selected && selected.classList.remove("selected");
 
     // add the 'selected' class to current button
     button.classList.add("selected");
 
     // set the selected date
-    this._selectedDate = new Date(this._year, this._month, parseInt(button.textContent) +1);
-    this.value=this._selectedDate.toISOString().substring(0, 10);
+    this.selectedDate = new Date(this.year, this.month, parseInt(button.textContent) +1);
+    this.value=this.selectedDate.toISOString().substring(0, 10);
   };
 
   private _displayDates = () => {
@@ -39,39 +39,39 @@ export class CustomDatePicker extends LitElement {
     //updateYearMonth();
 
     // clear the dates
-    this._dates.innerHTML = "";
+    this.dates.innerHTML = "";
 
     //* display the last week of previous month
 
     // get the last date of previous month
-    const lastOfPrevMonth = new Date(this._year, this._month, 0);
+    const lastOfPrevMonth = new Date(this.year, this.month, 0);
 
     for (let i = 0; i <= lastOfPrevMonth.getDay(); i++) {
       const text = lastOfPrevMonth.getDate() - lastOfPrevMonth.getDay() + i;
       const button = this._createButton(text, true, -1);
-      this._dates.appendChild(button);
+      this.dates.appendChild(button);
     }
 
     //* display the current month
 
     // get the last date of the month
-    const lastOfMOnth = new Date(this._year, this._month + 1, 0);
+    const lastOfMOnth = new Date(this.year, this.month + 1, 0);
 
     for (let i = 1; i <= lastOfMOnth.getDate(); i++) {
       const button = this._createButton(i, false);
       button.addEventListener("click", this._handleDateClick);
-      this._dates.appendChild(button);
+      this.dates.appendChild(button);
     }
 
     //* display the first week of next month
 
-    const firstOfNextMonth = new Date(this._year, this._month + 1, 1);
+    const firstOfNextMonth = new Date(this.year, this.month + 1, 1);
 
     for (let i = firstOfNextMonth.getDay(); i < 7; i++) {
       const text = firstOfNextMonth.getDate() - firstOfNextMonth.getDay() + i;
 
       const button = this._createButton(text, true, 1);
-      this._dates.appendChild(button);
+      this.dates.appendChild(button);
     }
   };
 
@@ -79,16 +79,16 @@ export class CustomDatePicker extends LitElement {
     const currentDate = new Date();
 
     // determine the date to compare based on the button type
-    let comparisonDate = new Date(this._year, this._month + type, text);
+    let comparisonDate = new Date(this.year, this.month + type, text);
 
     // check if the current button is the date today
     const isToday =
       currentDate.getDate() === text &&
-      currentDate.getFullYear() === this._year &&
-      currentDate.getMonth() === this._month;
+      currentDate.getFullYear() === this.year &&
+      currentDate.getMonth() === this.month;
 
     // check if the current button is selected
-    const selected = this._selectedDate.getTime() === comparisonDate.getTime();
+    const selected = this.selectedDate.getTime() === comparisonDate.getTime();
 
     const button = document.createElement("button");
     button.textContent = text;
@@ -97,27 +97,6 @@ export class CustomDatePicker extends LitElement {
     button.classList.toggle("selected", selected);
     return button;
   };
-
-  get dates() {
-    return this._dates;
-  }
-
-  set dates(value) {
-    const oldValue = this._dates;
-    this._dates = value;
-    this.requestUpdate('_dates', oldValue);
-  }
-
-  get hideDatepicker() {
-    return this._hideDatepicker;
-  }
-
-  set hideDatepicker(value) {
-    const oldValue = this._hideDatepicker;
-    this._hideDatepicker = value;
-    this.requestUpdate('_hideDatepicker', oldValue);
-  }
-
 
   private _onClick(e: Event) {
     e.preventDefault();
@@ -138,29 +117,29 @@ export class CustomDatePicker extends LitElement {
 
   private _onPreviousMonthClick(e: Event) {
     e.preventDefault();
-    if(this._month === 0) this._year--;
-    this._month=(this._month - 1) % 12;
+    if(this.month === 0) this.year--;
+    this.month=(this.month - 1 + 12) % 12;
     this._displayDates();
-    console.log(this._month, this._year);
+    console.log(this.month, this.year);
   }
 
   private _onNextMonthClick(e: Event) {
     e.preventDefault();
-    if(this._month === 11) this._year++;
-    this._month=(this._month + 1) % 12;
+    if(this.month === 11) this.year++;
+    this.month=(this.month + 1) % 12;
     this._displayDates();
-    console.log(this._month, this._year);
+    console.log(this.month, this.year);
   }
 
   private _handleMonthChange(e: Event) {
     e.preventDefault();
-    this._month=e.target.selectedIndex;
+    this.month=e.target.selectedIndex;
     this._displayDates();
   }
 
   private _handleYearChange(e: Event) {
     e.preventDefault();
-    this._year=e.target.value;
+    this.year=e.target.value;
     this._displayDates();
   }
 
@@ -174,7 +153,7 @@ export class CustomDatePicker extends LitElement {
     document.addEventListener('click', this._handleDocumentClick);
     this.closest('form').addEventListener('reset', ()=>{
       this.value='';
-      this._dates.querySelector('.selected').classList.toggle('selected');
+      this.dates.querySelector('.selected').classList.toggle('selected');
     }, { capture: true });
     this.closest('form').addEventListener('formdata', (event: FormDataEvent)=>{
       event.formData.append(this.name, this.value);}, { capture: true });
@@ -377,17 +356,6 @@ export class CustomDatePicker extends LitElement {
       background: mediumpurple;
       color: #fff;
     }
-
-    //option {
-    //  background-color: red;
-    //  color: #333;
-    //  padding: 10px;
-    //}
-    //
-    //option:hover {
-    //  background-color: green;
-    //}
-
   `
 }
 
