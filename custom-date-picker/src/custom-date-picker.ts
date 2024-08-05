@@ -211,7 +211,7 @@ export class CustomDatePicker extends LitElement {
                             <option>November</option>
                             <option>December</option>
                         </select>
-                        <input type="number" class="year-input" @change="${this._handleYearChange}"/>
+                        <input type="number" class="year-input" @change="${this._handleYearChange}" .value="${this.year}"/>
                     </div>
 
                     <button class="next" @click="${this._onNextMonthClick}">Next</button>
