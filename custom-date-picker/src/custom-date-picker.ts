@@ -134,6 +134,7 @@ export class CustomDatePicker extends LitElement {
   private _handleMonthChange(e: Event) {
     e.preventDefault();
     this.month=e.target.selectedIndex;
+    e.target.children[e.target.selectedIndex].setAttribute('selected', true);
     this._displayDates();
   }
 
@@ -198,18 +199,18 @@ export class CustomDatePicker extends LitElement {
 
                     <div>
                         <select class="month-input" @change="${this._handleMonthChange}">
-                            <option>January</option>
-                            <option>February</option>
-                            <option>March</option>
-                            <option>April</option>
-                            <option>May</option>
-                            <option>June</option>
-                            <option>July</option>
-                            <option>August</option>
-                            <option>September</option>
-                            <option>October</option>
-                            <option>November</option>
-                            <option>December</option>
+                            <option ?selected="${this.month===0}">January</option>
+                            <option ?selected="${this.month===1}">February</option>
+                            <option ?selected="${this.month===2}">March</option>
+                            <option ?selected="${this.month===3}">April</option>
+                            <option ?selected="${this.month===4}">May</option>
+                            <option ?selected="${this.month===5}">June</option>
+                            <option ?selected="${this.month===6}">July</option>
+                            <option ?selected="${this.month===7}">August</option>
+                            <option ?selected="${this.month===8}">September</option>
+                            <option ?selected="${this.month===9}">October</option>
+                            <option ?selected="${this.month===10}">November</option>
+                            <option ?selected="${this.month===11}">December</option>
                         </select>
                         <input type="number" class="year-input" @change="${this._handleYearChange}" .value="${this.year}"/>
                     </div>
