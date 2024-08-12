@@ -35,9 +35,6 @@ export class CustomDatePicker extends LitElement {
   };
 
   private _displayDates = () => {
-    // update year & month whenever the dates are updated
-    //updateYearMonth();
-
     // clear the dates
     this.dates.innerHTML = "";
 
@@ -55,9 +52,9 @@ export class CustomDatePicker extends LitElement {
     //* display the current month
 
     // get the last date of the month
-    const lastOfMOnth = new Date(this.year, this.month + 1, 0);
+    const lastOfMonth = new Date(this.year, this.month + 1, 0);
 
-    for (let i = 1; i <= lastOfMOnth.getDate(); i++) {
+    for (let i = 1; i <= lastOfMonth.getDate(); i++) {
       const button = this._createButton(i, false);
       button.addEventListener("click", this._handleDateClick);
       this.dates.appendChild(button);
@@ -172,7 +169,7 @@ export class CustomDatePicker extends LitElement {
 
   private _handleDocumentClick = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
-    if (!target.closest('#dateInput')) {
+    if (!target.closest('custom-date-picker')) {
       this.hideDatepicker = true;
     }
   };
